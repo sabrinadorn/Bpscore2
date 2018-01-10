@@ -1,0 +1,85 @@
+{smcl}
+{* *! version 1.2.0  11sept2017}{...}
+{findalias asfradohelp}{...}
+{vieweralsosee "" "--"}{...}
+{vieweralsosee "[R] help" "help help"}{...}
+{viewerjumpto "Syntax" "examplehelpfile##syntax"}{...}
+{viewerjumpto "Description" "examplehelpfile##description"}{...}
+{viewerjumpto "Options" "examplehelpfile##options"}{...}
+{viewerjumpto "Remarks" "examplehelpfile##remarks"}{...}
+{viewerjumpto "Examples" "examplehelpfile##examples"}{...}
+{title:Title}
+
+{phang}
+{bf:Bpscore2} {hline 2} Implements ensemble estimation for pscore2 
+
+{marker syntax}{...}
+{title:Syntax}
+
+{p 8 17 2}
+{cmdab:Bpscore2}
+{it:treatment}
+{varlist}
+{ifin}
+{weight}{cmd:, y}({it:outcome}) {cmd: reps}({it:integer}) {cmd: gen}({it:string})[{opt ksm:irnov }{opt tt:est}{opt wi:lk }
+{opt logit }{opt com:sup }{cmd:level(}real 0.2{cmd:) }
+{opt re:scale }{cmd:by(}real 0.5{cmd:) }{opt rev:ert }{opt subs:ampling }{cmd:siz(}real 0.666666{cmd:) }
+{opt cont:rols }{opt rand:boot }{cmd:subset(}real 0.333333{cmd:) }{opt noi:sily}]
+
+{synoptset 20 tabbed}{...}
+{synopthdr}
+{synoptline}
+{syntab:Compulsory}
+
+   {cmd: y(}{it:outcome}{cmd:)}		   Name of outcome variable. 
+   {cmd: reps(}{it:integer}{cmd:)}	   Number of replications.
+   {cmd: gen}({it:string})	     Name of variable containing ATTs for each replication.
+   
+{syntab:Statistical testing}
+
+    {opt ksm:irnov } 	     	 Compute two-sample Kolmogorov-Smirnov equality-of-distributions test (default).
+    {opt tenf:orce }         	 Compute two-sample mean-comparison test with equal variances for all conditioning variables.
+    {opt wi:lk }             	 Compute rank-sum test.
+
+
+{syntab:Balancing score function}
+
+    {opt logit }		Estimate the balancing score function by logistic regression (default is probit).
+    {opt com:sup }               Restrict analysis to the common support of treated and untreated observations. 
+        
+{syntab:Algorithm}
+
+    {cmd:level(}{it:real}{cmd:)} 	   Specifiy the level for the cutoff-type-I error for the statistical test. 
+			  If nothing is specified the default of 0.2 is used. 
+    {opt re:scale }       	 Use rescaling by a constant scale factor to update the testing interval.                           
+    {cmd:by(}{it:real}{cmd:) }		   Specify the constant scale factor element of (0,1) for {opt re:scale}. 
+			  If nothing is specified, a default value of 1/2 is used.        
+    {opt rev:ert }	  	 Revert the direction of the grid search to search into the directions of the maximum.
+    
+
+{syntab:Options for ensemble-step}
+
+    {opt default }		Apply standard bootstrap with replacement from the full data.
+    {opt subs:ampling}		 Apply sub-sampling from the full data.  
+    {cmd:siz(}{it:real}{cmd:)}   	   Relative size of sub-samples drawn. If nothing is specified, the default value of 2/3 is used.
+    {opt cont:rols}		 The treated from the original sample are retained, and only the controls are sampled.
+    {opt rand:boot}              At each replication, randomly drop 1/3 (default) of the regressors.  
+    {cmd:siz(}{it:real}{cmd:)}		   Specify other share of regressors to be dropped at each replication.
+  	
+		
+{syntab:Display and summary options}
+
+    {opt noi:siliy }		 Noisily display current replication during computation.
+    
+{marker syntax}{...}
+{title:Saved results}
+
+   {cmd: Bpscore2} saves the following in e():
+    
+    Scalars
+    
+    e(att)                Bagged estimate of the average treatment effect for the treated.
+    
+
+{synoptline}
+
